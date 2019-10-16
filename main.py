@@ -32,6 +32,7 @@ sample_input = [
     ["o","h","o","h","o"]
     ]
 
+
 # Creates the grid object that holds all the space objects
 class GridObj():
     # Creates dict used to store space objects
@@ -42,7 +43,7 @@ class GridObj():
 
     def get_spaces_from_file(self, input):
             # Gets number of columns based on input file
-            num_columns = len(example_input[0])
+            num_columns = len(sample_input[0])
             # Sets the "grid_num" iterator used in object attribute & grid_dict
             grid_num = 1
             current_col = 1
@@ -50,7 +51,7 @@ class GridObj():
 
             # Create grid's space objects based on input file
             for current_col in range(num_columns):
-                for i in example_input[n]:
+                for i in sample_input[current_row]:
                     if i == "o":
                         space = SpaceObj("o", grid_num, current_col, current_row)
                     elif i == "x":
@@ -69,25 +70,26 @@ class GridObj():
                         current_row += 1
 
                     # Adds newly created space to the grid spaces dict.
-                    self.spaces[self.grid_num] = space
+                    self.spaces[grid_num] = space
 
                     # adds one to GridNum iterable
-                    self.grid_num += 1
+                    grid_num += 1
 
 
 # Creates the space objects that puplate the grid from input file
-class SpaceObj(type, grid_num, current_col, current_row):
-    self.grid_num = grid_num
-    self.col = current_col
-    self.row = current_row
-    self.x_range = (current_col * space_size, current_col * space_size + space_size)
-    self.y_range = (current_row * space_size, current_row * space_size + space_size)
+class SpaceObj():
+    def __init__(self, type, grid_num, current_col, current_row):
+        self.grid_num = grid_num
+        self.col = current_col
+        self.row = current_row
+        self.x_range = (current_col * space_size, current_col * space_size + space_size)
+        self.y_range = (current_row * space_size, current_row * space_size + space_size)
 
-    self.items = []
-    self.occupied = False
-    self.occupied_by = None
-    self.type = type
-    self.get_type_attributes(type)
+        self.items = []
+        self.occupied = False
+        self.occupied_by = None
+        self.type = type
+        self.get_type_attributes(type)
 
 
     def get_type_attributes(self, type):
@@ -113,4 +115,10 @@ class SpaceObj(type, grid_num, current_col, current_row):
             self.spawn = None
 
 grid = GridObj()
-pp.pprint(grid)
+for space in grid.spaces.values():
+    print("---------------------------")
+    print("grid num: ", space.grid_num)
+    print("x_range num: ", space.x_range)
+    print("y_range num: ", space.y_range)
+    print("Type: ", space.type)
+    print("Passible: ", space.passible)
