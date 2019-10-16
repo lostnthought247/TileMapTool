@@ -1,6 +1,3 @@
-import pprint
-pp = pprint.PrettyPrinter(indent=4)
-
 
 # Key for and Sample of input map textfile
 """
@@ -79,36 +76,50 @@ class GridObj():
 # Creates the space objects that puplate the grid from input file
 class SpaceObj():
     def __init__(self, type, grid_num, current_col, current_row):
+        # Defines number used in grid Dict.
         self.grid_num = grid_num
+        # Defines grid column the space is located in
         self.col = current_col
+        # Defines grid row the space is located in
         self.row = current_row
+        # Defines x_range (aka widgth) of a space based on screensize/mapsize
         self.x_range = (current_col * space_size, current_col * space_size + space_size)
-        self.y_range = (current_row * space_size, current_row * space_size + space_size)
-
+        # Defines y_range (aka height) of a space based on screensize/mapsize
+        self.y_range = (current_row * space_size - space_size, current_row * space_size)
+        # Creates of list of "items" that are located in a space
         self.items = []
+        # Indicates if space is in use by a sprite
         self.occupied = False
+        # Indicates which type of sprite is using space ("hero", "enemy", "obj")
         self.occupied_by = None
+        # sets type of grid space based on injested file
         self.type = type
+        # Call method to set space's type-specific attributes
         self.get_type_attributes(type)
 
-
+    # Defines space's type-specific attributes based on injected data
     def get_type_attributes(self, type):
-        if self.type == "x":
+        # Sets walls/barriers attributes
+        if type == "x":
             self.passible = False
             self.cover = "Full"
             self.spawn = None
+        # Sets open space attributes
         elif type == "o":
             self.passible = True
             self.cover = "None"
             self.spawn = None
+        # Sets hero spawn area space attributes (similiar to open space)
         elif type == "h":
             self.passible = True
             self.cover = "None"
             self.spawn = "Hero"
+        # Sets enemy spawn area space attributes (similiar to open space)
         elif type == "e":
             self.passible = True
             self.cover = "None"
             self.spawn = "Enemy"
+        # Sets cover attributes
         elif type == "c":
             self.passible = False
             self.cover = "Partial"
